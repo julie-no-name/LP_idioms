@@ -1,0 +1,5 @@
+#Here are libs that you should install to your virtual environment :
+requests
+beautifulsoup4
+flask
+flask-sqlalchemy
