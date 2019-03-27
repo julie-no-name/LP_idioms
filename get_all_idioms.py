@@ -1,5 +1,5 @@
 from webapp import create_app
-from webapp.native_english_idioms import get_links_to_themes, get_python_idioms
+from webapp.native_english_idioms import get_links_to_themes, get_python_idioms, save_idioms
 
 app = create_app()
 with app.app_context():

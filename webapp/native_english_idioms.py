@@ -26,6 +26,7 @@ def get_links_to_themes():
                 'name_of_theme': name_of_theme,
                 'link_to_theme': link_to_theme,
             })
+        #print(result_list_of_themes)
         return result_list_of_themes
     return False
 
@@ -40,7 +41,7 @@ def get_python_idioms(theme, link):
             translation = idiom.find('div', {'class': 'pane__text'}).text
             definition = idiom.find('div', {'class': 'example'}).text
             save_idioms(theme, name_of_idiom, translation, definition)
-        return result_idioms
+
     return False
 
 
