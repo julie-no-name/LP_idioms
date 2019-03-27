@@ -28,25 +28,26 @@ def get_links_to_themes():
             })
         #print(result_list_of_themes)
         return result_list_of_themes
-    return False
+
 
 def get_python_idioms(theme, link):
     html = get_html(link)
     if html:
         soup = BeautifulSoup(html, 'html.parser')
         all_idioms = soup.find('ul', class_="list list_big").findAll('li', class_="list__item pane")
-        result_idioms = []
         for idiom in all_idioms: 
             name_of_idiom = idiom.find('a').text
             translation = idiom.find('div', {'class': 'pane__text'}).text
             definition = idiom.find('div', {'class': 'example'}).text
             save_idioms(theme, name_of_idiom, translation, definition)
 
-    return False
+
 
 
 def save_idioms(name_of_theme, name_of_idiom, translation, definition):
-    idioms_idioms = Idioms(name_of_theme=name_of_theme, name_of_idiom=name_of_idiom, translation=translation,definition=definition)
-    db.session.add(idioms_idioms)
-    db.session.commit()
+    idioms_exists = Idioms.query.filter(Idioms.name_of_idiom == name_of_idiom).count()
+    if not idioms_exists:
+        idioms_idioms = Idioms(name_of_theme=name_of_theme, name_of_idiom=name_of_idiom, translation=translation,definition=definition)
+        db.session.add(idioms_idioms)
+        db.session.commit()
 
