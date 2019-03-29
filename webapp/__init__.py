@@ -14,3 +14,7 @@ def create_app():
         print(idioms_list)
         return render_template('index.html', page_title=page_title, idioms_list=idioms_list)
     return app
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run('127.0.0.1', 8090)
