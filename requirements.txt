@@ -1,3 +1,8 @@
+#Here are libs that you should install to your virtual environment :
+requests
+beautifulsoup4
+flask
+flask-sqlalchemy
 Click==7.0
 Flask==1.0.2
 Flask-SQLAlchemy==2.3.2

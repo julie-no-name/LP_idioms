@@ -1,6 +1,7 @@
 import requests
-import csv
 from bs4 import BeautifulSoup
+
+from webapp.model import db, Idioms
 
 def get_html(url):
     try:
@@ -21,40 +22,32 @@ def get_links_to_themes():
         for idiom in all_idioms: 
             name_of_theme = (idiom.find('a').text).capitalize().strip()
             link_to_theme = 'https://www.native-english.ru' + idiom.find('a')['href']
-            name_of_csv = name_of_theme.lower().replace(' ', '_') + '.csv'
             result_list_of_themes.append({
                 'name_of_theme': name_of_theme,
                 'link_to_theme': link_to_theme,
-                'name_of_csv': name_of_csv
             })
+        #print(result_list_of_themes)
         return result_list_of_themes
-    return False
 
-def get_python_idioms(link):
+
+def get_python_idioms(theme, link):
     html = get_html(link)
     if html:
         soup = BeautifulSoup(html, 'html.parser')
         all_idioms = soup.find('ul', class_="list list_big").findAll('li', class_="list__item pane")
-        result_idioms = []
         for idiom in all_idioms: 
             name_of_idiom = idiom.find('a').text
             translation = idiom.find('div', {'class': 'pane__text'}).text
             definition = idiom.find('div', {'class': 'example'}).text
-            result_idioms.append({
-                'name_of_idiom': name_of_idiom.strip(),
-                'translation': translation.strip(),
-                'definition': definition.strip()
-            })
-        return result_idioms
-    return False
+            save_idioms(theme, name_of_idiom, translation, definition)
 
-if __name__ == "__main__":
-        list_of_themes = get_links_to_themes()
-        for theme in list_of_themes:
-            idioms_list = get_python_idioms(theme['link_to_theme'])
-            with open(theme['name_of_csv'], 'w', encoding='utf-8', newline='') as user_file:
-                fields = ['name_of_idiom', 'translation', 'definition']
-                writer = csv.DictWriter(user_file, fields, delimiter=';')
-                writer.writeheader()
-                for idiom in idioms_list:
-                    writer.writerow(idiom)
+
+
+
+def save_idioms(name_of_theme, name_of_idiom, translation, definition):
+    idioms_exists = Idioms.query.filter(Idioms.name_of_idiom == name_of_idiom).count()
+    if not idioms_exists:
+        idioms_idioms = Idioms(name_of_theme=name_of_theme, name_of_idiom=name_of_idiom, translation=translation,definition=definition)
+        db.session.add(idioms_idioms)
+        db.session.commit()
+
