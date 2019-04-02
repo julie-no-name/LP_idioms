@@ -26,7 +26,6 @@ def get_links_to_themes():
                 'name_of_theme': name_of_theme,
                 'link_to_theme': link_to_theme,
             })
-        #print(result_list_of_themes)
         return result_list_of_themes
 
 
@@ -47,7 +46,13 @@ def get_python_idioms(theme, link):
 def save_idioms(name_of_theme, name_of_idiom, translation, definition):
     idioms_exists = Idioms.query.filter(Idioms.name_of_idiom == name_of_idiom).count()
     if not idioms_exists:
-        idioms_idioms = Idioms(name_of_theme=name_of_theme, name_of_idiom=name_of_idiom, translation=translation,definition=definition)
+        idioms_idioms = Idioms(
+            name_of_theme=name_of_theme, 
+            name_of_idiom=name_of_idiom, 
+            translation=translation,
+            definition=definition
+        )
+
         db.session.add(idioms_idioms)
         db.session.commit()
 
