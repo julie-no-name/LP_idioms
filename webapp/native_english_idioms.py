@@ -43,7 +43,6 @@ def get_python_idioms(theme, link):
 
 
 
-
 def save_idioms(name_of_theme, name_of_idiom, translation, definition):
     idioms_exists = Idioms.query.filter(Idioms.name_of_idiom == name_of_idiom).count()
     if not idioms_exists:
