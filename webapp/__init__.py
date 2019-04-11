@@ -12,12 +12,13 @@ def create_app():
     def index():
         form = SearchForm()
         page_title = "Learn Idioms"
-        if form.validate_on_submit():
-            search_term = f'{form.search.data}%'
-            idioms_list = Idioms.query.filter(Idioms.name_of_idiom.like(search_term)).all()
-            return render_template('index.html', page_title=page_title, idioms_list=idioms_list, form=form)
-        idioms_list = Idioms.query.all()
-        return render_template('index.html', page_title=page_title, idioms_list=idioms_list, form=form)
+        idioms_list = Idioms.query
+        if request.method == 'POST':
+            if form.validate_on_submit():
+                search_term = f'{form.search.data}%'
+                idioms_list = idioms_list.filter(Idioms.name_of_idiom.like(search_term))
+        return render_template('index.html', page_title=page_title, idioms_list=idioms_list.all(), form=form)
+
     return app
 
 if __name__ == "__main__":
