@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from webapp.model import db, Idioms
-from webapp.forms import SearchForm
+from webapp.forms import SearchForm, LoginForm
 
 
 def create_app():
@@ -19,8 +19,17 @@ def create_app():
                 idioms_list = idioms_list.filter(Idioms.name_of_idiom.like(search_term))
         return render_template('index.html', page_title=page_title, idioms_list=idioms_list.all(), form=form)
 
+
+    @app.route('/login')
+    def login():
+        page_title = "Login"
+        login_form = LoginForm()
+        return render_template('login.html', page_title=page_title, form=login_form)
+
+
     return app
+
 
 if __name__ == "__main__":
     app = create_app()
-    app.run('127.0.0.1', 8099, debug=True)
+    app.run('127.0.0.1', 8087, debug=True)
