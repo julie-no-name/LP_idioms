@@ -10,24 +10,27 @@
     <title>{{  page_title  }}</title>
   </head>
   <body>
-    {% include 'base.html' %}
     <div class="container">
-      <h1>Идиома:</h1>
+      <br>
+      <h3>Введите имя пользователя и пароль:</h3>
       <div class="row">
         <div class="col-4">
-          {% for idioms in idioms_list %}
-          <h2>{{ idioms.name_of_idiom }}</h2>
-          {% endfor %}
-        </div>
-        <div class="col-4">
-          {% for idioms in idioms_list %}
-          <h2>{{ idioms.translation }}</h2>
-          {% endfor %}
-        </div>
-        <div class="col-4">
-          {% for idioms in idioms_list %}
-          <h2>{{ idioms.definition }}</h2>
-          {% endfor %}
+          <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Имя пользователя</label>
+                {{ form.email() }}
+              </div>
+            </p>
+            <p>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Пароль</label>
+                {{ form.password() }}
+              </div>
+            </p>
+            <p>{{ form.submit }}</p>
+          </form>
         </div>
       </div>
     </div>

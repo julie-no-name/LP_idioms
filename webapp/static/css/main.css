@@ -1,0 +1,20 @@
+p {
+    font-size: 14px;
+    font-family: Arial;
+    }
+.odd {
+    color: blue;
+    }
+.even {
+    background-color: red;
+    }
+
+h1#question {
+    text-align: center;
+    font-size: 48px;
+
+}
+.container {
+    
+    text-align: center;
+    }
