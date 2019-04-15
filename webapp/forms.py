@@ -7,6 +7,6 @@ class SearchForm(FlaskForm):
     submit = SubmitField('Искать', render_kw={"class":"btn btn-outline-success my-2 my-sm-0", "type":"submit"})
 
 class LoginForm(FlaskForm):
-    email = StringField('Имя пользователя', validators=[DataRequired()], render_kw={"class":"form-control", "placeholder":""})
+    username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={"class":"form-control", "placeholder":""})
     password = PasswordField('Пароль', validators=[DataRequired()], render_kw={"input type":"password", "class":"form-control", "id":"exampleInputPassword1", "placeholder":""})
     submit = SubmitField('Отправить', render_kw={"type":"submit", "class":"btn btn-primary"})
