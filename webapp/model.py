@@ -15,7 +15,7 @@ class Idioms(db.Model):
     def __repr__(self):
         return f'<Idioms {self.name_of_idiom} {self.translation} {self.definition}>'
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(128))
