@@ -13,23 +13,21 @@
     {% include 'base.html' %}
     <div class="container">
       <h1>Идиома:</h1>
-      <div class="row">
-        <div class="col-4">
-          {% for idioms in idioms_list %}
-          <h2>{{ idioms.name_of_idiom }}</h2>
-          {% endfor %}
+      {% for idioms in idioms_list %}
+      <hr>
+        <div class="row">
+          <div class="col-4">
+            <h2>{{ idioms.name_of_idiom }}</h2>
+          </div>
+          <div class="col-4">
+            <h2>{{ idioms.translation }}</h2>
+          </div>
+          <div class="col-4">
+            <h2>{{ idioms.definition }}</h2>
+          </div>
         </div>
-        <div class="col-4">
-          {% for idioms in idioms_list %}
-          <h2>{{ idioms.translation }}</h2>
-          {% endfor %}
-        </div>
-        <div class="col-4">
-          {% for idioms in idioms_list %}
-          <h2>{{ idioms.definition }}</h2>
-          {% endfor %}
-        </div>
-      </div>
+        </hr>
+      {% endfor %}
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
