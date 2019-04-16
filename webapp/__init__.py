@@ -1,21 +1,26 @@
 from flask import Flask, render_template, request, flash, redirect,url_for
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, current_user
 from webapp.model import db, Idioms, User
-from webapp.forms import SearchForm, LoginForm
+from webapp.forms import SearchForm, LoginForm, RegistrationForm
+from flask_migrate import Migrate
+
 
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.py')
     db.init_app(app)
+    migrate = Migrate(app, db)
 
     login_manager = LoginManager()
     login_manager.init_app(app)
     login_manager.login_view = 'login'
 
+
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(user_id)
+
 
     @app.route('/', methods = ['GET', 'POST'])
     def index():
@@ -31,9 +36,12 @@ def create_app():
 
     @app.route('/login')
     def login():
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
         page_title = "Login"
         login_form = LoginForm()
         return render_template('login.html', page_title=page_title, form=login_form)
+
 
     @app.route('/process-login', methods=['POST'])
     def process_login():
@@ -48,11 +56,34 @@ def create_app():
         flash('Неправильное имя пользователя или пароль')
         return redirect(url_for('login'))
 
+
     @app.route('/logout')
     def logout():
         logout_user()
         return redirect(url_for('index'))
 
+
+    @app.route('/register')
+    def register():
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
+        form = RegistrationForm()
+        title = "Регистрация"
+        return render_template('registration.html', page_title=title, form=form)
+
+
+    @app.route('/process-reg', methods=['POST'])
+    def process_reg():
+        form = RegistrationForm()
+        if form.validate_on_submit():
+            new_user = User(username=form.username.data, email=form.email.data, role='user')
+            new_user.set_password(form.password.data)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Вы успешно зарегистрировались!')
+            return redirect(url_for('login'))
+        flash('Пожалуйста, исправьте ошибки в форме')
+        return redirect(url_for('register'))
 
     return app
 
