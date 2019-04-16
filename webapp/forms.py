@@ -9,11 +9,11 @@ class SearchForm(FlaskForm):
 class LoginForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={"class":"form-control", "placeholder":""})
     password = PasswordField('Пароль', validators=[DataRequired()], render_kw={"input type":"password", "class":"form-control", "id":"exampleInputPassword1", "placeholder":""})
-    submit = SubmitField('Отправить', render_kw={"type":"submit", "class":"btn btn-primary"})
+    submit = SubmitField('Войти', render_kw={"type":"submit", "class":"btn btn-primary"})
 
 class RegistrationForm(FlaskForm):
     username = StringField('Имя пользователя', validators=[DataRequired()], render_kw={"class": "form-control"})
     email = StringField('Email', validators=[DataRequired()], render_kw={"class": "form-control"})
     password = PasswordField('Пароль', validators=[DataRequired()], render_kw={"class": "form-control"})
     password2 = PasswordField('Повторите пароль', validators=[DataRequired()], render_kw={"class": "form-control"})
-    submit = SubmitField('Отправить!', render_kw={"class": "btn btn-primary"})
+    submit = SubmitField('Зарегистрироваться', render_kw={"class": "btn btn-primary"})
