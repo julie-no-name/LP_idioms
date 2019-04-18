@@ -24,7 +24,7 @@
             </div>
             {% endif %}
           {% endwith %}
-          <form action="{{ url_for('process_login') }}" method="post">
+          <form action="{{ url_for('process_reg') }}" method="post">
             {{ form.hidden_tag() }}
             <p>
               <div class="form-group">
@@ -34,8 +34,20 @@
             </p>
             <p>
               <div class="form-group">
+                <label for="exampleInputEmail1">Электронная почта</label>
+                {{ form.email() }}
+              </div>
+            </p>
+            <p>
+              <div class="form-group">
                 <label for="exampleInputPassword1">Пароль</label>
                 {{ form.password() }}
+              </div>
+            </p>
+            <p>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Повторите пароль</label>
+                {{ form.password2() }}
               </div>
             </p>
             <p>{{ form.submit }}</p>
