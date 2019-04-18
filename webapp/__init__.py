@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, flash, redirect,url_for
+from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, current_user
 from webapp.model import db, Idioms, User
-from webapp.forms import SearchForm, LoginForm, RegistrationForm
+from webapp.forms import LoginForm, RegistrationForm
 from flask_migrate import Migrate
 
 
@@ -21,17 +21,21 @@ def create_app():
     def load_user(user_id):
         return User.query.get(user_id)
 
-
-    @app.route('/', methods = ['GET', 'POST'])
+    @app.route('/')
     def index():
-        form = SearchForm()
         page_title = "Learn Idioms"
+        idioms_list = Idioms.query.all()
+        return render_template('index.html', page_title=page_title, idioms_list=idioms_list)
+
+
+    @app.route('/search')
+    def search():
+        page_title = "Search Idioms"
         idioms_list = Idioms.query
-        if request.method == 'POST':
-            if form.validate_on_submit():
-                search_term = f'{form.search.data}%'
-                idioms_list = idioms_list.filter(Idioms.name_of_idiom.like(search_term))
-        return render_template('index.html', page_title=page_title, idioms_list=idioms_list.all(), form=form)
+        if request.args.get('q'):
+            search_term = f"{request.args.get('q')}%"
+            idioms_list = idioms_list.filter(Idioms.name_of_idiom.like(search_term))
+        return render_template('search.html', page_title=page_title, idioms_list=idioms_list.all())
 
 
     @app.route('/login')
@@ -52,7 +56,6 @@ def create_app():
                 login_user(user)
                 flash('Вы вошли на сайт')
                 return redirect(url_for('index'))
-
         flash('Неправильное имя пользователя или пароль')
         return redirect(url_for('login'))
 
@@ -66,6 +69,7 @@ def create_app():
     @app.route('/register')
     def register():
         if current_user.is_authenticated:
+            flash('Вы уже зарегистрировались и вошли на сайт')
             return redirect(url_for('index'))
         form = RegistrationForm()
         title = "Регистрация"

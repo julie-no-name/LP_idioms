@@ -12,15 +12,6 @@
   <body>
     {% include 'navbar.html' %}
     <div class="container">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="alert alert-success" role="alert">
-          {% for message in messages %}
-            {{ message }}<br>
-          {% endfor %}
-        </div>
-        {% endif %}
-      {% endwith %}
       <h1>Идиома:</h1>
       {% for idioms in idioms_list %}
       <hr>
