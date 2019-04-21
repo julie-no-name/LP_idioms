@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 from webapp.model import db, Idioms
 from webapp.forms import SearchForm, LoginForm
 import random
@@ -31,39 +31,24 @@ def create_app():
 
     @app.route('/practice')
     def practice():
-        page_title = "Тренировка"
+
+        if request.args.get('answer') and request.args.get('question'):
+            if request.args.get('answer') == request.args.get('question'):
+                flash('Your previous answer was right!')
+            else:
+                flash('Your previous answer was wrong!')
+        
+        page_title = "Practice"
         variants = []
-        random_cell = Idioms.query.order_by(func.random()).first()
-        random_idiom = random_cell.name_of_idiom
-        variants.append(random_cell.translation)
-        variants.append(Idioms.query.order_by(func.random()).first().translation)
-        variants.append(Idioms.query.order_by(func.random()).first().translation)
-        variants.append(Idioms.query.order_by(func.random()).first().translation)
-        random.shuffle(variants)
-        idioms_list = Idioms.query
+        for idiom in Idioms.query.order_by(func.random()).limit(4).all():
+            variants.append(idiom)
+        question_idiom = variants[0]
         
  
-        return render_template('practice.html', page_title=page_title, idioms_list=idioms_list.all(),
-            random_idiom=random_idiom, variants=variants)
+        return render_template('practice.html', page_title=page_title,
+            question_idiom=question_idiom, variants=variants)
 
     
-    @app.route('/answer')
-    def answer():
-        page_title = "Тренировка"
-        variants = []
-        random_cell = Idioms.query.order_by(func.random()).first()
-        random_idiom = random_cell.name_of_idiom
-        variants.append(random_cell.translation)
-        variants.append(Idioms.query.order_by(func.random()).first().translation)
-        variants.append(Idioms.query.order_by(func.random()).first().translation)
-        variants.append(Idioms.query.order_by(func.random()).first().translation)
-        random.shuffle(variants)
-        idioms_list = Idioms.query
-        
- 
-        return render_template('answer.html', page_title=page_title, idioms_list=idioms_list.all(),
-            random_idiom=random_idiom, variants=variants)
-
 
     return app
 

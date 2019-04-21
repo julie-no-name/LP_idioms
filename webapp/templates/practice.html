@@ -44,21 +44,37 @@
 
     </html>
 
-    <br />
-    <br />
+  
+
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>   
+    <div id="container">
+      <div class="row justify-content-center">
+        <div class="col-8">
+          {% for message in messages %}
+            <div class="alert alert-warning" role="alert" align="center">{{ message }}</div>
+          {% endfor %}
+        </div>  
+      </div>  
+    </div>
+    </ul>
+  {% endif %}
+  {% endwith %}
+
       <body>
 
         <h1 align="center">Переведите идиому:    <br />
-            "{{ random_idiom }}"</h1>
+            "{{ question_idiom.name_of_idiom }}"</h1>
             
     <br />
     <div id="container">
       <div class="row justify-content-center">
         <div class="col-4">
-            <a class="btn btn-primary btn-lg btn-block" href="answer" role="button">{{ variants[0] }}</a>
-            <a class="btn btn-primary btn-lg btn-block" href="https://vk.com" role="button">{{ variants[1] }}</a>
-            <a class="btn btn-primary btn-lg btn-block" href="https://vk.com" role="button">{{ variants[2] }}</a>
-            <a class="btn btn-primary btn-lg btn-block" href="https://vk.com" role="button">{{ variants[3] }}</a>
+          {% for variant in variants %}            
+            <a class="btn btn-primary btn-lg btn-block" href="?answer={{ variant.id }}&question={{ question_idiom.id }}" role="button">{{ variant.translation }}</a>
+          {% endfor %}
         </div>
       </div>
     </div>
