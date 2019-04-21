@@ -10,22 +10,22 @@
     <title>{{  page_title  }}</title>
   </head>
   <body>
-    {% include 'navbar.html' %}
+  {% include 'navbar.html' %}
     <div class="container">
       <br>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-danger" role="alert">
+              {{ message }}
+          </div>
+          {% endfor %}
+      {% endif %}
+      {% endwith %}
       <h3>Введите имя пользователя и пароль:</h3>
       <div class="row">
         <div class="col-4">
-          {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <div class="alert alert-warning" role="alert">
-              {% for message in messages %}
-                {{ message }}<br>
-              {% endfor %}
-            </div>
-            {% endif %}
-          {% endwith %}
-          <form action="{{ url_for('process_login') }}" method="post">
+          <form action="{{ url_for('process_reg') }}" method="post">
             {{ form.hidden_tag() }}
             <p>
               <div class="form-group">
@@ -35,8 +35,20 @@
             </p>
             <p>
               <div class="form-group">
+                <label for="exampleInputEmail1">Электронная почта</label>
+                {{ form.email() }}
+              </div>
+            </p>
+            <p>
+              <div class="form-group">
                 <label for="exampleInputPassword1">Пароль</label>
                 {{ form.password() }}
+              </div>
+            </p>
+            <p>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Повторите пароль</label>
+                {{ form.password2() }}
               </div>
             </p>
             <p>{{ form.submit }}</p>

@@ -12,37 +12,22 @@
   <body>
     {% include 'navbar.html' %}
     <div class="container">
-      <br>
-      <h3>Введите имя пользователя и пароль:</h3>
-      <div class="row">
-        <div class="col-4">
-          {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <div class="alert alert-warning" role="alert">
-              {% for message in messages %}
-                {{ message }}<br>
-              {% endfor %}
-            </div>
-            {% endif %}
-          {% endwith %}
-          <form action="{{ url_for('process_login') }}" method="post">
-            {{ form.hidden_tag() }}
-            <p>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Имя пользователя</label>
-                {{ form.username() }}
-              </div>
-            </p>
-            <p>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Пароль</label>
-                {{ form.password() }}
-              </div>
-            </p>
-            <p>{{ form.submit }}</p>
-          </form>
+      <h1>Идиома:</h1>
+      {% for idioms in idioms_list %}
+      <hr>
+        <div class="row">
+          <div class="col-4">
+            <h2><b>{{ idioms.name_of_idiom }}</b></h2>
+          </div>
+          <div class="col-4">
+            <h2><i>{{ idioms.translation }}</i></h2>
+          </div>
+          <div class="col-4">
+            <h2 style="color:#0059d6">{{ idioms.definition }}</h2>
+          </div>
         </div>
-      </div>
+        </hr>
+      {% endfor %}
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
