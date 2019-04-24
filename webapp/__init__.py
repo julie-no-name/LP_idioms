@@ -58,9 +58,7 @@ def create_app():
                 flash('Your previous answer was wrong!')
         
         page_title = "Practice"
-        variants = []
-        for idiom in Idioms.query.order_by(func.random()).limit(4).all():
-            variants.append(idiom)
+        variants = Idioms.query.order_by(func.random()).limit(4).all()
         question_idiom = variants[0]
         
  
