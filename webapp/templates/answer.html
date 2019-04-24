@@ -44,37 +44,26 @@
 
     </html>
 
-  
-
-
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>   
-    <div id="container">
-      <div class="row justify-content-center">
-        <div class="col-8">
-          {% for message in messages %}
-            <div class="alert alert-warning" role="alert" align="center">{{ message }}</div>
-          {% endfor %}
-        </div>  
-      </div>  
-    </div>
-    </ul>
-  {% endif %}
-  {% endwith %}
-
+    <br />
+    <br />
       <body>
 
+            <h4 align="center">неправильно</h4>
+                
+        <br />
+
+
         <h1 align="center">Переведите идиому:    <br />
-            "{{ question_idiom.name_of_idiom }}"</h1>
+            "{{ random_idiom }}"</h1>
             
     <br />
     <div id="container">
       <div class="row justify-content-center">
         <div class="col-4">
-          {% for variant in variants %}            
-            <a class="btn btn-primary btn-lg btn-block" href="?answer={{ variant.id }}&question={{ question_idiom.id }}" role="button">{{ variant.translation }}</a>
-          {% endfor %}
+            <a class="btn btn-primary btn-lg btn-block" href="https://vk.com" role="button">{{ variants[0] }}</a>
+            <a class="btn btn-primary btn-lg btn-block" href="https://vk.com" role="button">{{ variants[1] }}</a>
+            <a class="btn btn-primary btn-lg btn-block" href="https://vk.com" role="button">{{ variants[2] }}</a>
+            <a class="btn btn-primary btn-lg btn-block" href="https://vk.com" role="button">{{ variants[3] }}</a>
         </div>
       </div>
     </div>

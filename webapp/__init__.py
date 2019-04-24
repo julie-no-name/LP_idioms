@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, flash
 from flask_login import LoginManager, login_user, logout_user, current_user
 from webapp.model import db, Idioms, User
 from webapp.forms import LoginForm, RegistrationForm
 from flask_migrate import Migrate
+import random
+from sqlalchemy.sql import func
 
 
 
@@ -46,6 +48,26 @@ def create_app():
         login_form = LoginForm()
         return render_template('login.html', page_title=page_title, form=login_form)
 
+    @app.route('/practice')
+    def practice():
+
+        if request.args.get('answer') and request.args.get('question'):
+            if request.args.get('answer') == request.args.get('question'):
+                flash('Your previous answer was right!')
+            else:
+                flash('Your previous answer was wrong!')
+        
+        page_title = "Practice"
+        variants = []
+        for idiom in Idioms.query.order_by(func.random()).limit(4).all():
+            variants.append(idiom)
+        question_idiom = variants[0]
+        
+ 
+        return render_template('practice.html', page_title=page_title,
+            question_idiom=question_idiom, variants=variants)
+
+    
 
     @app.route('/process-login', methods=['POST'])
     def process_login():
