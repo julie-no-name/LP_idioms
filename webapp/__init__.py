@@ -60,7 +60,7 @@ def create_app():
         page_title = "Practice"
         variants = Idioms.query.order_by(func.random()).limit(4).all()
         question_idiom = variants[0]
-        
+        random.shuffle(variants)
  
         return render_template('practice.html', page_title=page_title,
             question_idiom=question_idiom, variants=variants)
